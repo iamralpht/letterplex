@@ -9,14 +9,15 @@
 #include <unistd.h>
 #include <math.h>
 
-//! An internal-use-only struct for interfacing with Pango. Ignore this.
+// I used osgPango as a reference for this boilerplate code to extend Pango's Renderer class.
+// https://code.google.com/p/osgpango
+
 struct Renderer {
 	PangoRenderer parent_instance;
     std::vector<ViewdoTextRun>* m_runs;
     float m_scale;
 };
 
-//! Another internal-use-only struct for interfacing with Pango. Ignore this.
 struct RendererClass {
 	PangoRendererClass class_instance;
 };
