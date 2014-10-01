@@ -10,7 +10,11 @@ Letterplex is based on a custom UI toolkit that calls OpenGL directly to render.
 *   Freetype &mdash; glyph rasterization
 *   FontConfig &mdash; font management
 
-Also included here are all of Pango's dependencies
+Also included here are all of Pango's dependencies.
+
+Letterplex also uses the following sounds from Freesound:
+*   Freesound <a href="https://www.freesound.org/people/Feegle/sounds/44061/">clip 44061</a>, titled Dicewood, is licensed under the <a href="http://creativecommons.org/licenses/sampling+/1.0/">Sampling+ License</a>
+*   Freesound <a href="https://www.freesound.org/people/mich3d/sounds/12658/">clip 12658</a>, titled Whoosh_Swish_03, is licensed under the <a href="http://creativecommons.org/licenses/by/3.0/">Attribution License</a>
 
 Why Pango?
 ==========
