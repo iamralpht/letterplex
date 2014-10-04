@@ -2,19 +2,22 @@
 
 JAVA_HOME ?= /usr/lib/jvm/default-java
 
-SOURCES =	JNIRegister.cpp \
-			JNIDawgDic.cpp \
-            JNIPangoLayout.cpp \
-            JNIPangoFontDescription.cpp \
-            JNIFontConfig.cpp \
+VIEWDO_SOURCES = \
             text/pango/ViewdoPangoRenderer.cpp \
             text/pango/ViewdoGlyphCache.cpp \
             text/pango/ViewdoGLRenderer.cpp
 
-all: libletterplex.so
+SOURCES =	JNIRegister.cpp \
+			JNIDawgDic.cpp \
+            JNIPangoLayout.cpp \
+            JNIPangoFontDescription.cpp \
+            JNIFontConfig.cpp 
 
-OBJECTS = $(addsuffix .o, $(basename $(filter %.c %.cpp %.cc,$(SOURCES))))
-GTEST_OBJECTS = $(addsuffix .o, $(basename $(filter %.c %.cpp %.cc,$(GTEST_SOURCE))))
+all: libletterplex.so
+#examples/text
+
+VIEWDO_OBJECTS = $(addsuffix .o, $(basename $(filter %.c %.cpp %.cc,$(VIEWDO_SOURCES))))
+OBJECTS = $(addsuffix .o, $(basename $(filter %.c %.cpp %.cc,$(SOURCES)))) ${VIEWDO_OBJECTS}
 
 CFLAGS = \
     -g \
@@ -36,6 +39,10 @@ LDFLAGS = -lpthread `pkg-config --libs pango pangoft2 freetype2 glib-2.0 gobject
 .cc.o:
 	@echo Compile C++ $<
 	@${CXX} -std=c++11 $(CFLAGS) -c $< -o $@
+
+examples/text: ${VIEWDO_OBJECTS} examples/text.o
+	@echo Link $@
+	@${CXX} ${VIEWDO_OBJECTS} examples/text.o ${LDFLAGS} -o $@
 
 libletterplex.so: ${OBJECTS}
 	@echo Link $@
