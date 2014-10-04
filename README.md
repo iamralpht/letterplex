@@ -27,7 +27,8 @@ Example
 =======
 
 There's an example of rendering text using the `ViewdoPangoRenderer` code in `examples/text.cpp`. If everything works out, you should have a window that looks like this:
-![example](https://github.com/iamralpht/raw/master/examples/text-screenshot.png)
+
+![example](https://github.com/iamralpht/letterplex/raw/master/examples/text-screenshot.png)
 
 Building for Android
 ====================
