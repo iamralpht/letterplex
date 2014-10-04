@@ -9,6 +9,7 @@ SOURCES =	JNIRegister.cpp \
             JNIFontConfig.cpp \
             text/pango/ViewdoPangoRenderer.cpp \
             text/pango/ViewdoGlyphCache.cpp \
+            text/pango/ViewdoGLRenderer.cpp
 
 all: libletterplex.so
 
