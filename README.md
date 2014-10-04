@@ -23,6 +23,12 @@ Letterplex calls OpenGL directly, so to render text it draws one quad per glyph.
 
 I really like ligatures and correct kerning, so I built Pango for Android and wrote a new `PangoRenderer` subclass to generate geometry and populate a glyph cache suitable for rendering with OpenGL. That code is included in `text/pango/*`. The code also builds for desktop Linux and would be suitable for use in any OpenGL project that needs high-quality text layout.
 
+Example
+=======
+
+There's an example of rendering text using the `ViewdoPangoRenderer` code in `examples/text.cpp`. If everything works out, you should have a window that looks like this:
+![example](https://github.com/iamralpht/raw/master/examples/text-screenshot.png)
+
 Building for Android
 ====================
 
