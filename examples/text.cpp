@@ -99,8 +99,18 @@ void main(void) {
 }
 )";
 
-
 // Actually interesting text stuff
+static const char* MARKUP =
+R"(<big><b>This is a test program demonstrating Pango rendering in OpenGL using a glyph cache</b></big>
+
+Rendering text with a glyph cache uses less texture memory than uploading every paragraph to a separate texture!
+
+Pango has a lot of neat features, including <b>markup</b> <i>which</i> <span fgcolor="#ff0000">allows</span> <span font="Times">a lot of</span> <b><i>flexibility.</i></b>
+
+Farsi in OpenGL: دانشنامه‌ای آزاد که همه می‌توانند آن را ویرایش کنند؛
+Korean: 위키백과는 전 세계
+Indonesian: হৈছে সকলোতকৈ
+)";
 
 static PangoContext* sContext = nullptr;
 static PangoFontMap* sFontMap = nullptr;
@@ -114,15 +124,15 @@ static PangoContext* context() {
     return sContext;
 }
 
-void build_runs(const char* markup, std::vector<ViewdoTextRun>& out) {
+void build_runs(const char* markup, int width, std::vector<ViewdoTextRun>& out) {
     PangoLayout* layout(pango_layout_new(context()));
 
     pango_layout_set_markup(layout, markup, -1);
-    pango_layout_set_width(layout, 400 * PANGO_SCALE);
+    pango_layout_set_width(layout, width * PANGO_SCALE);
 
     PangoFontDescription* font(pango_font_description_new());
     pango_font_description_set_family(font, "Ubuntu");
-    pango_font_description_set_size(font, 32 * 1000);
+    pango_font_description_set_size(font, 22 * 1000);
     pango_layout_set_font_description(layout, font);
     pango_font_description_free(font);
 
@@ -135,7 +145,7 @@ int main() {
     GLFWwindow* window;
     if (!glfwInit()) return 1;
 
-    window = glfwCreateWindow(640, 480, "Pango with OpenGL and a glyph cache", NULL, NULL);
+    window = glfwCreateWindow(1024, 480, "Pango with OpenGL and a glyph cache", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return 1;
@@ -162,14 +172,22 @@ int main() {
     GLuint colorLocation = glGetUniformLocation(program, "color");
 
 
+    int textWidth = -1;
     std::vector<ViewdoTextRun> runs;
-    build_runs("Hello <b>World</b>\nThis is some <span fgcolor=\"#ff0000\">markup</span> that has been <i>parsed</i> and laid out by <b>Pango!</b>", runs);
 
     while (!glfwWindowShouldClose(window))
     {
         int width = 0, height = 0;
         glfwGetFramebufferSize(window, &width, &height);
-        setProjection(projectionLocation, width, height);
+
+        if (width != textWidth) {
+            textWidth = width;
+            runs.clear();
+            build_runs(MARKUP, textWidth - 20, runs); // 10px padding on each side
+
+            glViewport(0, 0, width, height);
+            setProjection(projectionLocation, width, height);
+        }
 
         glClear(GL_COLOR_BUFFER_BIT);
 
