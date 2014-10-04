@@ -13,8 +13,7 @@ SOURCES =	JNIRegister.cpp \
             JNIPangoFontDescription.cpp \
             JNIFontConfig.cpp 
 
-all: libletterplex.so
-#examples/text
+all: examples/text libletterplex.so
 
 VIEWDO_OBJECTS = $(addsuffix .o, $(basename $(filter %.c %.cpp %.cc,$(VIEWDO_SOURCES))))
 OBJECTS = $(addsuffix .o, $(basename $(filter %.c %.cpp %.cc,$(SOURCES)))) ${VIEWDO_OBJECTS}
@@ -26,7 +25,7 @@ CFLAGS = \
     -Itext/pango \
     `pkg-config --cflags pango freetype2 glib-2.0`
 
-LDFLAGS = -lpthread `pkg-config --libs pango pangoft2 freetype2 glib-2.0 gobject-2.0 gthread-2.0 gmodule-2.0` -lGL
+LDFLAGS = -lpthread `pkg-config --libs pango pangoft2 freetype2 glib-2.0 gobject-2.0 gthread-2.0 gmodule-2.0 glfw3` -lGL
 
 .c.o:
 	@echo Compile C $<
@@ -49,6 +48,6 @@ libletterplex.so: ${OBJECTS}
 	@${CXX} -Wl,--no-undefined ${OBJECTS} ${LDFLAGS} -shared -o $@
 
 clean:
-	@rm -f ${OBJECTS} libletterplex.so text/test/TestTextLayout.o text/test/TestTextLayout
+	@rm -f ${OBJECTS} libletterplex.so examples/text examples/text.o
 
 
